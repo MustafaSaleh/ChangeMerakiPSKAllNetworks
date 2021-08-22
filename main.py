@@ -1,5 +1,10 @@
+# ChangeMerakiPSKAllNetworks 
+#by Mustafa Hussein &  Muhannad Al-Shaer
+#Thanks for using this scrip
+#Important before start, You have to be sure about your ssid name
+#We are assuming here that you have the same SSID name at all your networks
+
 import meraki
-#'e225e5c727d6107b15b89b0bae02aba45e106176'
 APIKEY = DASHBOARD = NEWPSK = SSIDNAME = None
 
 def connectDashboard():
@@ -41,11 +46,10 @@ def fetchOrgs(orgs):
          print(i, orgs[i]['name'])
          i +=1
 
-
 #set API Key
-
 APIKEY = input("Please insert your APIKEY : ")
 print("APIKEY saved")
+
 #connect to Dashboard
 DASHBOARD = connectDashboard()
 print("Connected to Dashboard")
