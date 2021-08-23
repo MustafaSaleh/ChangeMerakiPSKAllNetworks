@@ -1,6 +1,6 @@
-# ChangeMerakiPSKAllNetworks 
+#ChangeMerakiPSKAllNetworks 
 #by Mustafa Hussein &  Muhannad Al-Shaer
-#Thanks for using this scrip
+#Thanks for using this script
 #Important before start, You have to be sure about your ssid name
 #We are assuming here that you have the same SSID name at all your networks
 
@@ -47,21 +47,21 @@ def fetchOrgs(orgs):
          i +=1
 
 #set API Key
-APIKEY = input("Please insert your APIKEY : ")
+APIKEY = input("Please insert your APIKEY: ")
 print("APIKEY saved")
 
 #connect to Dashboard
 DASHBOARD = connectDashboard()
-print("Connected to Dashboard")
+print("Dashboard Connected.")
 
 SSIDNAME = input("Which SSID do you need to update?  ")
 # set Organization
-NEWPSK = input("Please type new PSK: ")
+NEWPSK = input("Please insert a new PSK: ")
 
-print("Please hold on, I'm getting your Organizations now....")
+print("Please hold-on, I'm getting your organizations now....")
 orgs = getOrgs()
 fetchOrgs(orgs)
-orgIndex = int(input("select organization: "))
+orgIndex = int(input("Select organization: "))
 print("You have selectd: " ,orgs[orgIndex]['name'])
 
 updateAllSSIDs(orgs[orgIndex]['id'])
