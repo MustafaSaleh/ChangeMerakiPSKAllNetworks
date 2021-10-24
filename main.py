@@ -4,6 +4,7 @@
 #Important before start, You have to be sure about your ssid name
 #We are assuming here that you have the same SSID name at all your networks
 
+from logging import error
 import meraki
 APIKEY = DASHBOARD = NEWPSK = SSIDNAME = None
 
@@ -20,21 +21,29 @@ def updateAllSSIDs(organization_id):
         netws=  DASHBOARD.organizations.getOrganizationNetworks(organization_id, total_pages='all')
         ssidCounter = 0;
         for netw in netws:
-            SSIDs = DASHBOARD.wireless.getNetworkWirelessSsids(netw['id'])
-            for ssid in SSIDs:
-                #confirm psk mode
-                if(ssid['name'] == SSIDNAME and ssid['authMode'] == 'psk'):
-                    ssidCounter +=1
-                    print("I found your SSID: " + ssid['name'])
-                    #update SSID PSK
-                    
-                    res = DASHBOARD.wireless.updateNetworkWirelessSsid(
-                        netw['id'], 
-                        ssid['number'], 
-                        psk= NEWPSK
-                    )
-                    if(res['number']):
-                        print("SSID "+res['name']+ " @ Netowk:"+ netw['name'] + " has been updated.")
+            try:
+                SSIDs = DASHBOARD.wireless.getNetworkWirelessSsids(netw['id'])
+                for ssid in SSIDs:
+                    #confirm psk mode
+                    if(ssid['name'] == SSIDNAME and ssid['authMode'] == 'psk'):
+                        ssidCounter +=1
+                        print("I found your SSID: " + ssid['name'])
+                        try:
+                            res = DASHBOARD.wireless.updateNetworkWirelessSsid(
+                            netw['id'], 
+                            ssid['number'], 
+                            psk= NEWPSK
+                            )
+                            if(res['number']):
+                                print("SSID "+res['name']+ " @ Netowk:"+ netw['name'] + " has been updated.")
+                        except meraki.APIError as e:
+                            print(e) 
+                    else:
+                        print("I didn't find anything.")
+                        #update SSID PSK     
+            except meraki.APIError as e:
+                print(e)
+                
         if(ssidCounter==0):
             print("I didn't find "+SSIDNAME+ " at any of your networks")
         else:
