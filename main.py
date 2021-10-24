@@ -22,7 +22,8 @@ def updateAllSSIDs(organization_id):
         for netw in netws:
             SSIDs = DASHBOARD.wireless.getNetworkWirelessSsids(netw['id'])
             for ssid in SSIDs:
-                if(ssid['name'] == SSIDNAME ):
+                #confirm psk mode
+                if(ssid['name'] == SSIDNAME and ssid['authMode'] == 'psk'):
                     ssidCounter +=1
                     print("I found your SSID: " + ssid['name'])
                     #update SSID PSK
